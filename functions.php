@@ -87,7 +87,14 @@ function login($username, $password) {
 	}
 }
 
-function reserve($id_tipe_kamar, $checkin, $checkout) {
+function reserve($record) {
+	$id_tipe_kamar = $record["id_tipe_kamar"];
+	$checkin = $record["checkin"];
+	$checkout = $record["checkout"];
+	$nama = $record["nama"];
+	$NIK = $record["NIK"];
+	$email = $record["email"];
+	$nomor_hp = $record["nomor_hp"];
 	global $conn;
 	$query_1 = "SELECT COUNT(DISTINCT(reservasi_kamar.ID_kamar)) AS jumlah FROM reservasi_kamar INNER JOIN kamar_hotel ON reservasi_kamar.ID_kamar = kamar_hotel.ID_kamar WHERE (tgl_checkin BETWEEN '$checkin' AND '$checkout') AND (tgl_checkout BETWEEN '$checkin' AND '$checkout') AND (ID_tipe_kamar = $id_tipe_kamar);";
 	$query_2 = "SELECT reservasi_kamar.ID_kamar FROM reservasi_kamar INNER JOIN kamar_hotel ON reservasi_kamar.ID_kamar = kamar_hotel.ID_kamar WHERE (tgl_checkin BETWEEN '$checkin' AND '$checkout') AND (tgl_checkout BETWEEN '$checkin' AND '$checkout') AND (ID_tipe_kamar = $id_tipe_kamar) ORDER BY reservasi_kamar.ID_kamar;";
@@ -113,10 +120,16 @@ function reserve($id_tipe_kamar, $checkin, $checkout) {
 		$ID_kamar_kosong = array_diff($list_kamar, $list_kamar_reservasi);
 		$ID_kamar_kosong = array_values($ID_kamar_kosong);
 		$ID_kamar = $ID_kamar_kosong[0];
-		return $ID_kamar;
-		// $query_reservation = "INSERT INTO reservasi_kamar VALUE('', );";
+		// return $ID_kamar;
+		$query_reservation = "INSERT INTO reservasi_kamar VALUE('', $ID_kamar, '$checkin', '$checkout', '$nama', '$NIK', '$email', '$nomor_hp');";
+		if (execute_query($query_reservation)) {
+			return 1;
+		} else {
+			return 0;
+		}
 	} else {
-		return NULL;
+		// return 3 buat nampilin alert bahwa kamar kosong
+		return 2;
 	}
 
 }
