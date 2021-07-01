@@ -1,7 +1,11 @@
+section {
+    min-height: 350px !important;
+}
+
 #navbarNav .nav-item {
     margin-left: 10px;
 }
 
-#pricing p {
+#booksection p, h5 {
     margin: 0px !important;
 }
