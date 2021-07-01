@@ -5,3 +5,23 @@
 #pricing p {
     margin: 0px !important;
 }
+
+#bawah {
+    margin-top: 100px;
+    margin-bottom: 90px;
+}
+
+#footer {
+    background-color: #7d4242;
+    color: white;
+}
+
+#garisFooter {
+    height: 8px;
+    background-color: white;
+}
+
+#akhirFooter {
+    margin-top: 50px;
+    margin-left: 510px;
+}
