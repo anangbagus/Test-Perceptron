@@ -6,7 +6,8 @@ section {
     margin-left: 10px;
 }
 
-#booksection p, h5 {
+#booksection p,
+h5 {
     margin: 0px !important;
 }
 
@@ -32,4 +33,57 @@ section {
 #akhirFooter {
     margin-top: 50px;
     margin-left: 510px;
+}
+
+.card {
+    border-radius: 20px;
+}
+
+.kartu {
+    border-radius: 20px;
+    margin-left: 80px;
+}
+
+.kartu-dua {
+    border-radius: 20px;
+    margin-left: 160px;
+}
+
+.kartu-tiga {
+    border-radius: 20px;
+    margin-left: 240px;
+}
+
+.card-img-top {
+    border-radius: 20px 20px 0px 0px;
+}
+
+.room-section {
+    margin-left: 70px;
+}
+
+.kotakDalem {
+    background-color: #433846;
+    border-radius: 10px;
+    color: white;
+}
+
+#roomType {
+    width: 600px;
+    border-radius: 10px;
+}
+
+#roomTypeKecil {
+    width: 80px;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+#quoteRoom {
+    border-radius: 10px;
+    width: 450px;
+}
+
+.ready-to-stay {
+    margin-bottom: 1000px;
 }

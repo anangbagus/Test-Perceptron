@@ -92,9 +92,7 @@ function login($username, $password)
 	}
 }
 
-function reserve($record)
-{
-	$id_tipe_kamar = $record["id_tipe_kamar"];
+function reserve($id_tipe_kamar, $record) {
 	$checkin = $record["checkin"];
 	$checkout = $record["checkout"];
 	$nama = $record["nama"];
