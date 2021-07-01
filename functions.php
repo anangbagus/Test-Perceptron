@@ -1,10 +1,11 @@
-<?php 
+<?php
 
 // connect to database
 $conn = mysqli_connect("localhost", "root", "", "db_hotel");
 
 // read data
-function read($query) {
+function read($query)
+{
 	global $conn;
 	$result = mysqli_query($conn, $query);
 	$records = [];
@@ -14,7 +15,8 @@ function read($query) {
 	return $records;
 }
 
-function execute_query($query) {
+function execute_query($query)
+{
 	global $conn;
 	mysqli_query($conn, $query);
 	if (mysqli_affected_rows($conn) > 0) {
@@ -23,7 +25,8 @@ function execute_query($query) {
 	return false;
 }
 
-function execute_multi_query($query) {
+function execute_multi_query($query)
+{
 	global $conn;
 	mysqli_multi_query($conn, $query);
 	if (mysqli_affected_rows($conn) > 0) {
@@ -32,19 +35,22 @@ function execute_multi_query($query) {
 	return false;
 }
 
-function check_username($uname) {
+function check_username($uname)
+{
 	global $conn;
 	mysqli_query($conn, "SELECT * FROM user_account WHERE username = '$uname';");
 	return mysqli_affected_rows($conn);
 }
 
-function check_NIK($nik) {
+function check_NIK($nik)
+{
 	global $conn;
 	mysqli_query($conn, "SELECT * FROM user_account WHERE NIK = '$nik';");
 	return mysqli_affected_rows($conn);
 }
 
-function register_new_user($record) {
+function register_new_user($record)
+{
 	global $conn;
 	$nik = $record["NIK"];
 	$uname = stripslashes($record["username"]);
@@ -57,37 +63,44 @@ function register_new_user($record) {
 	} elseif ((check_username($uname)) > 0) {
 		return 3;
 	} else {
-  		$nama = $record["nama"];
-  		$alamat = $record["alamat"];
-  		$jenis_kelamin = $record["jenis_kelamin"];
-  		$email = $record["email"];
-  		$hashed_pwd = password_hash($pwd, PASSWORD_DEFAULT);
-  		$query_akun = "INSERT INTO user_account VALUES('', '$nama', '$alamat', '$nik', 'user', '$jenis_kelamin', '$uname', '$hashed_pwd', '$email');";
-  		if (execute_query($query_akun)) {
-  			return 4;
-  		}
+		$nama = $record["nama"];
+		$alamat = $record["alamat"];
+		$jenis_kelamin = $record["jenis_kelamin"];
+		$email = $record["email"];
+		$hashed_pwd = password_hash($pwd, PASSWORD_DEFAULT);
+		$query_akun = "INSERT INTO user_account VALUES('', '$nama', '$alamat', '$nik', 'user', '$jenis_kelamin', '$uname', '$hashed_pwd', '$email');";
+		if (execute_query($query_akun)) {
+			return 4;
+		}
 	}
 }
 
-function login($username, $password) {
+function login($username, $password)
+{
 	global $conn;
 	$uname = stripslashes($username);
 	$pwd = mysqli_real_escape_string($conn, $password);
 	$query = "SELECT username, password_user, role FROM user_account WHERE username = '$uname';";
 	$res = mysqli_query($conn, $query);
-	if(mysqli_num_rows($res) === 1){
+	if (mysqli_num_rows($res) === 1) {
 		$account = mysqli_fetch_assoc($res);
 		if (password_verify($pwd, $account['password_user'])) {
 			if ($account['role'] == 'user') {
-
 			} else {
-
 			}
 		}
 	}
 }
 
-function reserve($id_tipe_kamar, $checkin, $checkout) {
+function reserve($record)
+{
+	$id_tipe_kamar = $record["id_tipe_kamar"];
+	$checkin = $record["checkin"];
+	$checkout = $record["checkout"];
+	$nama = $record["nama"];
+	$NIK = $record["NIK"];
+	$email = $record["email"];
+	$nomor_hp = $record["nomor_hp"];
 	global $conn;
 	$query_1 = "SELECT COUNT(DISTINCT(reservasi_kamar.ID_kamar)) AS jumlah FROM reservasi_kamar INNER JOIN kamar_hotel ON reservasi_kamar.ID_kamar = kamar_hotel.ID_kamar WHERE (tgl_checkin BETWEEN '$checkin' AND '$checkout') AND (tgl_checkout BETWEEN '$checkin' AND '$checkout') AND (ID_tipe_kamar = $id_tipe_kamar);";
 	$query_2 = "SELECT reservasi_kamar.ID_kamar FROM reservasi_kamar INNER JOIN kamar_hotel ON reservasi_kamar.ID_kamar = kamar_hotel.ID_kamar WHERE (tgl_checkin BETWEEN '$checkin' AND '$checkout') AND (tgl_checkout BETWEEN '$checkin' AND '$checkout') AND (ID_tipe_kamar = $id_tipe_kamar) ORDER BY reservasi_kamar.ID_kamar;";
@@ -113,14 +126,39 @@ function reserve($id_tipe_kamar, $checkin, $checkout) {
 		$ID_kamar_kosong = array_diff($list_kamar, $list_kamar_reservasi);
 		$ID_kamar_kosong = array_values($ID_kamar_kosong);
 		$ID_kamar = $ID_kamar_kosong[0];
-		return $ID_kamar;
-		// $query_reservation = "INSERT INTO reservasi_kamar VALUE('', );";
+		// return $ID_kamar;
+		$query_reservation = "INSERT INTO reservasi_kamar VALUE('', $ID_kamar, '$checkin', '$checkout', '$nama', '$NIK', '$email', '$nomor_hp');";
+		if (execute_query($query_reservation)) {
+			return 1;
+		} else {
+			return 0;
+		}
 	} else {
-		return NULL;
+		// return 3 buat nampilin alert bahwa kamar kosong
+		return 2;
 	}
-
 }
 
+function checkin($idKamar)
+{
+	$query = "UPDATE kamar_hotel SET status_kamar=1 WHERE ID_kamar='$idKamar'";
+	return execute_query($query);
+}
 
+function checkout($idKamar)
+{
+	$query = "UPDATE kamar_hotel SET status_kamar=0 WHERE ID_kamar='$idKamar'";
+	return execute_query($query);
+}
 
-?>
+function tambahTipeKamar($tipe, $harga, $kapasitas)
+{
+	$query = "INSERT INTO tipe_kamar (tipe, harga_per_malam, kapasitas) VALUES ('$tipe', '$harga', '$kapasitas')";
+	return execute_query($query);
+}
+
+function tambahRuangKamar($idTipe)
+{
+	$query = "INSERT INTO kamar_hotel (ID_tipe_kamar, status_kamar) VALUES ('$idTipe', '0')";
+	return execute_query($query);
+}
