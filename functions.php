@@ -89,11 +89,36 @@ function login($username, $password) {
 
 function reserve($id_tipe_kamar, $checkin, $checkout) {
 	global $conn;
-	$query_1 = "SELECT COUNT(DISTINCT(reservasi_kamar.ID_kamar)) FROM reservasi_kamar INNER JOIN kamar_hotel ON reservasi_kamar.ID_kamar = kamar_hotel.ID_kamar WHERE (tgl_checkin BETWEEN '$checkin' AND '$checkout') AND (tgl_checkout BETWEEN '$checkin' AND '$checkout') AND (ID_tipe_kamar = $id_tipe_kamar);";
-	$query_2 = "SELECT reservasi_kamar.* FROM reservasi_kamar INNER JOIN kamar_hotel ON reservasi_kamar.ID_kamar = kamar_hotel.ID_kamar WHERE (tgl_checkin BETWEEN '$checkin' AND '$checkout') AND (tgl_checkout BETWEEN '$checkin' AND '$checkout') AND (ID_tipe_kamar = $id_tipe_kamar) ORDER BY reservasi_kamar.ID_kamar;";
-	$query_3 = "SELECT COUNT(DISTINCT(kamar_hotel.ID_kamar)) FROM kamar_hotel INNER JOIN tipe_kamar ON kamar_hotel.ID_kamar = tipe_kamar.ID_kamar WHERE kamar_hotel.ID_tipe_kamar = $id_tipe_kamar;";
-	$query_4 = "SELECT COUNT(DISTINCT(kamar_hotel.ID_kamar)) FROM kamar_hotel INNER JOIN tipe_kamar ON kamar_hotel.ID_kamar = tipe_kamar.ID_kamar WHERE kamar_hotel.ID_tipe_kamar = $id_tipe_kamar ORDER BY ID_kamar";
-	
+	$query_1 = "SELECT COUNT(DISTINCT(reservasi_kamar.ID_kamar)) AS jumlah FROM reservasi_kamar INNER JOIN kamar_hotel ON reservasi_kamar.ID_kamar = kamar_hotel.ID_kamar WHERE (tgl_checkin BETWEEN '$checkin' AND '$checkout') AND (tgl_checkout BETWEEN '$checkin' AND '$checkout') AND (ID_tipe_kamar = $id_tipe_kamar);";
+	$query_2 = "SELECT reservasi_kamar.ID_kamar FROM reservasi_kamar INNER JOIN kamar_hotel ON reservasi_kamar.ID_kamar = kamar_hotel.ID_kamar WHERE (tgl_checkin BETWEEN '$checkin' AND '$checkout') AND (tgl_checkout BETWEEN '$checkin' AND '$checkout') AND (ID_tipe_kamar = $id_tipe_kamar) ORDER BY reservasi_kamar.ID_kamar;";
+	$query_3 = "SELECT COUNT(DISTINCT(kamar_hotel.ID_kamar)) AS jumlah FROM kamar_hotel INNER JOIN tipe_kamar ON kamar_hotel.ID_tipe_kamar = tipe_kamar.ID_tipe_kamar WHERE kamar_hotel.ID_tipe_kamar = $id_tipe_kamar;";
+	$query_4 = "SELECT kamar_hotel.ID_kamar FROM kamar_hotel INNER JOIN tipe_kamar ON kamar_hotel.ID_tipe_kamar = tipe_kamar.ID_tipe_kamar WHERE kamar_hotel.ID_tipe_kamar = $id_tipe_kamar ORDER BY ID_kamar";
+	$jmlh_kamar_reservasi = read($query_1);
+	$jmlh_kamar = read($query_3);
+	$nomor_kamar_reservasi = read($query_2);
+	$nomor_kamar = read($query_4);
+	$jmlh_kamar_reservasi = $jmlh_kamar_reservasi[0]['jumlah'];
+	$jmlh_kamar = $jmlh_kamar[0]['jumlah'];
+	// check availability
+	if (($jmlh_kamar_reservasi) < $jmlh_kamar) {
+		// temukan ID kamar yang tidak direservasi
+		$list_kamar = [];
+		$list_kamar_reservasi = [];
+		foreach ($nomor_kamar as $kamar) {
+			array_push($list_kamar, $kamar["ID_kamar"]);
+		}
+		foreach ($nomor_kamar_reservasi as $kamar) {
+			array_push($list_kamar_reservasi, $kamar["ID_kamar"]);
+		}
+		$ID_kamar_kosong = array_diff($list_kamar, $list_kamar_reservasi);
+		$ID_kamar_kosong = array_values($ID_kamar_kosong);
+		$ID_kamar = $ID_kamar_kosong[0];
+		return $ID_kamar;
+		// $query_reservation = "INSERT INTO reservasi_kamar VALUE('', );";
+	} else {
+		return NULL;
+	}
+
 }
 
 
