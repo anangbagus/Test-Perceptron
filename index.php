@@ -13,56 +13,8 @@
 		/>
         <link rel="stylesheet" href="style.css">
 	</head>
+    <?php include 'header.php' ?>
 	<body>
-		<nav class="navbar navbar-light bg-light">
-			<div class="container">
-				<a class="navbar-brand" href="#">
-					<img
-						src=""
-						alt="logo"
-						width="30"
-						height="24"
-					/>
-				</a>
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <div class="container-fluid">
-                        <!-- bagian ini aku bingung waktu mode hpnya, karna di css ku kasi margin di expand menu nya ikutan kena margin -->
-                        <!-- <a class="navbar-brand" href="#">Navbar</a>
-                        <button
-                            class="navbar-toggler"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#navbarNav"
-                            aria-controls="navbarNav"
-                            aria-expanded="false"
-                            aria-label="Toggle navigation"
-                        >
-                            <span class="navbar-toggler-icon"></span>
-                        </button> -->
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#">Gallery</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Services</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Pricing</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Blogs</a>
-                                </li>
-                                <li class="nav-item">
-                                    <button class="btn btn-outline-dark">Login</button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-			</div>
-		</nav>
-
         <div class="container">
             <section class="bg-light my-5">
                 <div class="d-flex">
@@ -124,7 +76,7 @@
                 </div>
             </section>
             <section class="bg-light my-5">
-                <div class="d-inline d-flex flex-column align-items-center p-5 mb-auto">
+                <div class="d-inline d-flex flex-column align-items-center px-5 mb-auto" style="padding: 6rem 3rem !important;">
                     <b><h5>Ready to stay?</h5></b>
                     <br>
                     <p>Choose your stay options based on our plans</p>
@@ -188,66 +140,5 @@
 			crossorigin="anonymous"
 		></script>
 	</body>
-    <footer class="footer mt-auto py-3" id="footer">
-        <div class="container" id="bawah">
-            <div class="row justify-content-center">
-                <div class="col-6 text-center">
-                    <div class="row">
-                        <div class="col-2">
-                            <p class="fw-bold">Gallery</p>
-                        </div>
-                        <div class="col-2">
-                            <p class="fw-bold">Service</p>
-                        </div>
-                        <div class="col-2">
-                            <p class="fw-bold">Blogs</p>
-                        </div>
-                        <div class="col-2">
-                            <p class="fw-bold">PERCEPTRON HOTELS</p>
-                        </div>
-                        <div class="col-2">
-                            <p class="fw-bold">About Us</p>
-                        </div>
-                        <div class="col-2">
-                            <p class="fw-bold">Contact Us</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-10">
-                    <hr id="garisFooter">
-                </div>
-            </div>
-            <div class="row justify-content-center mt-3">
-                <div class="col-6">
-                    <div class="row justify-content-center">
-                        <div class="col-1">
-                            <h1 class="bi bi-facebook"></h1>
-                        </div>
-                        <div class="col-1">
-                            <h1 class="bi bi-instagram"></h1>
-                        </div>
-                        <div class="col-1">
-                            <h1 class="bi bi-whatsapp"></h1>
-                        </div>
-                        <div class="col-1">
-                            <h1 class="bi bi-youtube"></h1>
-                        </div>
-                        <div class="col-1">
-                            <h1 class="bi bi-github"></h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row" id="akhirFooter">
-                <div class="col-2">
-                    <p class="text-center">@ 2021</p>
-                </div>
-                <div class="col-2">
-                    <p class="text-center">Privacy-Terms</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php include 'footer.php' ?>
 </html>

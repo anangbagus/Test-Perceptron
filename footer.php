@@ -2,10 +2,10 @@
 </body>
 <footer class="footer mt-auto py-3" id="footer">
     <div class="container" id="bawah">
-        <div class="row justify-content-center">
-            <div class="col-6 text-center">
+        <div class="row justify-content-evenly">
+            <div class="col-10 text-center">
                 <div class="row">
-                    <div class="col-2">
+                    <div class="col-1">
                         <p class="fw-bold">Gallery</p>
                     </div>
                     <div class="col-2">
@@ -22,6 +22,9 @@
                     </div>
                     <div class="col-2">
                         <p class="fw-bold">Contact Us</p>
+                    </div>
+                    <div class="col-1">
+                        <p class="fw-bold">Join The Team</p>
                     </div>
                 </div>
             </div>
@@ -58,9 +61,6 @@
             </div>
             <div class="col-2">
                 <p class="text-center">Privacy-Terms</p>
-            </div>
-            <div class="col">
-
             </div>
         </div>
     </div>

@@ -1,7 +1,3 @@
-section {
-    min-height: 350px !important;
-}
-
 #navbarNav .nav-item {
     margin-left: 10px;
 }
@@ -17,7 +13,6 @@ h5 {
 
 #bawah {
     margin-top: 100px;
-    margin-bottom: 90px;
 }
 
 #footer {
